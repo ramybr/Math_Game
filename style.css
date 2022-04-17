@@ -3,6 +3,17 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.container {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    text-align: center;
+}
+
+.container .problem {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 .boxes {
     display: flex;
     width: 100%;
@@ -12,6 +23,18 @@
     height: 3rem;
     border-right: 1px #333 solid;
     flex: 1;
+}
+
+.our-form {
+    font-size: 1.2rem;
+}
+
+.our-form input {
+    padding: .2rem;
+}
+
+.our-form span {
+    font-weight: bold;
 }
 
 .progress {
@@ -42,6 +65,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* opacity: 0;
-    visibility: hidden; */
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.2);
+    transition: all .5s ease-out;
+}
+
+.overlay-is-open .overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.overlay-is-open .container {
+    filter: blur(4px);
+}
+
+.animate-wrong {
+    transition: all .3s ease-in-out;
+    color: red;
+    transform: scale(1.2);
 }

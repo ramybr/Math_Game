@@ -6,6 +6,7 @@ const pointsNeeded = document.querySelector(".points-needed");
 const mistakesAllowed = document.querySelector(".mistakes-allowed");
 const progressBar = document.querySelector(".progress-inner");
 const endMessage = document.querySelector(".end-message");
+const resetButton = document.querySelector(".reset-button");
 
 let state = {
     score: 0,
@@ -13,7 +14,8 @@ let state = {
 }
 
 // EVENT LISTENERS
-ourForm.addEventListener("submit", handleSubmit)
+ourForm.addEventListener("submit", handleSubmit);
+resetButton.addEventListener("click", resetGame)
 
 
 // FUNCTIONS
@@ -44,7 +46,6 @@ function problemGenerator() {
 // submit answer
 function handleSubmit(e) {
     e.preventDefault()
-
     let correctAnswer
     const p = state.currentProblem;
     if (p.operator == '+') {
@@ -63,20 +64,24 @@ function handleSubmit(e) {
     } else {
         state.wrongAnswers++;
         mistakesAllowed.textContent = 2 - state.wrongAnswers;
+        userAnswer.value = "";
+        problemElement.classList.add("animate-wrong");
+        problemElement.addEventListener("transitionend", () => problemElement.classList.remove("animate-wrong"))
     }
     checkLogic()
 }
 // won or lost
 function checkLogic() {
     if (state.score === 10) {
-        endMessage.textContent = "Congrats, You Won !"
-        resetGame()
+        endMessage.textContent = "Congrats, You Won !";
+        document.body.classList.add("overlay-is-open");
+        document.body.addEventListener("transitionend", () => resetButton.focus())
     }
-    if (state.wrongAnswers === 2) {
+    if (state.wrongAnswers === 3) {
         endMessage.textContent = "Sorry, You lost !"
-
-        resetGame()
+        document.body.classList.add("overlay-is-open");
         renderProgressBar();
+        document.body.addEventListener("transitionend", () => resetButton.focus())
     }
 }
 // reset the game
@@ -85,6 +90,9 @@ function resetGame() {
     state.wrongAnswers = 0;
     pointsNeeded.textContent = 10;
     mistakesAllowed.textContent = 2;
+    document.body.classList.remove("overlay-is-open");
+    renderProgressBar();
+    problemUpdate();
 }
 
 function renderProgressBar() {
