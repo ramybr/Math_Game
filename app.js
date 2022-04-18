@@ -20,6 +20,7 @@ resetButton.addEventListener("click", resetGame)
 
 // FUNCTIONS
 function problemUpdate() {
+
     state.currentProblem = problemGenerator();
     problemElement.innerHTML = `
     ${state.currentProblem.firstNumber} ${state.currentProblem.operator} ${state.currentProblem.secondtNumber} 
@@ -38,6 +39,7 @@ function numberGenerator(max) {
 // generate math problem
 function problemGenerator() {
     return {
+
         firstNumber: numberGenerator(10),
         secondtNumber: numberGenerator(10),
         operator: ['+', '-', 'x'][numberGenerator(2)]
@@ -46,7 +48,9 @@ function problemGenerator() {
 // submit answer
 function handleSubmit(e) {
     e.preventDefault()
-    let correctAnswer
+    let correctAnswer;
+    let wrongSound = new Audio('Try Again.mp3');
+    wrongSound.volume = 0.1;
     const p = state.currentProblem;
     if (p.operator == '+') {
         correctAnswer = p.firstNumber + p.secondtNumber;
@@ -62,11 +66,13 @@ function handleSubmit(e) {
         renderProgressBar();
 
     } else {
+        wrongSound.play();
         state.wrongAnswers++;
         mistakesAllowed.textContent = 2 - state.wrongAnswers;
         userAnswer.value = "";
+        userAnswer.focus();
         problemElement.classList.add("animate-wrong");
-        problemElement.addEventListener("transitionend", () => problemElement.classList.remove("animate-wrong"))
+        problemElement.addEventListener("transitionend", () => problemElement.classList.remove("animate-wrong"));
     }
     checkLogic()
 }
@@ -75,6 +81,7 @@ function checkLogic() {
     if (state.score === 10) {
         endMessage.textContent = "Congrats, You Won !";
         document.body.classList.add("overlay-is-open");
+        startConfetti();
         document.body.addEventListener("transitionend", () => resetButton.focus())
     }
     if (state.wrongAnswers === 3) {
@@ -93,6 +100,7 @@ function resetGame() {
     document.body.classList.remove("overlay-is-open");
     renderProgressBar();
     problemUpdate();
+    stopConfetti();
 }
 
 function renderProgressBar() {

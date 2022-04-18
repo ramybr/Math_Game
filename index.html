@@ -14,9 +14,11 @@
 
         <p class="problem"></p>
         <form action="" class="our-form">
-            <input type="text" class="our-input" autocomplete="off">
-            <button>Submit</button>
-            <p>You need <span class="points-needed">10</span> more points, and allowed to make <span class="mistakes-allowed">2</span> more mistakes. </p>
+            <input type="number" class="our-input" autocomplete="off">
+            <button class="btn">Submit</button>
+            <div class="tracker">
+                <p>You need <span class="points-needed">10</span> more points, and allowed to make <span class="mistakes-allowed">2</span> more mistakes. </p>
+            </div>
         </form>
         <div class="progress">
             <div class="boxes">
@@ -37,13 +39,14 @@
     <div class="overlay">
         <div class="overlay-inner">
             <p class="end-message"></p>
-            <button class="reset-button">Restart Game</button>
+            <button class="reset-button btn">Restart Game</button>
         </div>
     </div>
 
 
 
     <script src="app.js"></script>
+    <script src="confetti.js"></script>
 </body>
 
 </html>
